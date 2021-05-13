@@ -58,6 +58,11 @@ public:
     void setDepth(unsigned depth){
         this->depth = depth;
     }
+
+    bool is_empty(){
+        if(this==NULL) return true;
+        else return false;
+    }
 };
 
 class KDTree{
@@ -80,7 +85,7 @@ kd_node *insertRec(kd_node *root, vector<double> point, vector<string> data, uns
 {
     // Tree is empty?
     int k = point.size();
-    if (root == NULL){
+    if (root->is_empty()){
         kd_node* temp = new kd_node;
         temp->setData(data);
         temp->setPoint(point);
@@ -249,38 +254,54 @@ double distanciaDimension(vector<double> punt1, vector<double> punt2, unsigned d
     }else if (dimension == 35){
         return abs(punt1[35] - punt2[35]);        
     }
+    return 0;
 }
 
 void leerData(string archivo, kd_node* root)
 {
     string s;
-    int i=0, k=0;
+    int i=0;
     ifstream f( archivo );
     getline(f, s);
     while(getline(f, s))
     {
         vector<string> data;
         vector<double> comparables;
+        string aux;
+        int contComillas = 0, i = 0;
+
+        while(i < s.size()){
+            if (s[i] == '"'){
+                contComillas++;
+                i++;
+                while(s[i] != '"'){
+                    aux.push_back(s[i]);
+                    i++;
+                }
+                if(contComillas != 1)
+                    data.push_back(aux);
+                aux.clear();
+            }
+            i++;
+            if(contComillas == 3) break;
+        }
+
+        s.erase(0, i+1);
+
         for(int i=0; i<s.size(); i++){
             if(s[i] == '"'){
                 s.erase(i, 1);
             }
         }        
-        // stringstream class check1
-        stringstream check1(s);
         
+        stringstream check1(s);
         string intermediate;
         
-        // Tokenizing w.r.t. space ' '
-        getline(check1, intermediate, ',');
         while(getline(check1, intermediate, ','))
         {
             data.push_back(intermediate);
         }
-        
-        cout << data[2] << " " << data[4] << " "  << data[5] << " " << data[6] << " " << data[7] << " " << endl;
 
-        k=0;
         for(i=0; i<16; i++)
         {
             if(i==2 || i==4 || i==5 || i==6|| i==7 || i==8|| i==10|| i==11 || i==12 || i==13 || i==14)
@@ -314,161 +335,161 @@ void leerData(string archivo, kd_node* root)
                     {
                         for(int j=0; j<23;j++)
                         {
-                            if(j=0)
+                            if(j==0)
                                 comparables.push_back(1);
                         comparables.push_back(0);
                         }    
                     }else if(data[i].compare("Business")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=1)
+                            if(j==1)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }    
                     }else if(data[i].compare("Catalogs")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=2)
+                            if(j==2)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }    
                     }else if(data[i].compare("Education")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=3)
+                            if(j==3)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Entertaiment")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=4)
+                            if(j==4)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Finance")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=5)
+                            if(j==5)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Food & Drink")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=6)
+                            if(j==6)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Games")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=7)
+                            if(j==7)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Health & Fitness")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=8)
+                            if(j==8)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Lifestyle")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=9)
+                            if(j==9)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Medical")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=10)
+                            if(j==10)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Music")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=11)
+                            if(j==11)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Navigation")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=12)
+                            if(j==12)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("News")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=13)
+                            if(j==13)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Photo & Video")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=14)
+                            if(j==14)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Productivity")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=15)
+                            if(j==15)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Reference")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=16)
+                            if(j==16)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Shopping")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=17)
+                            if(j==17)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Social Networking")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=18)
+                            if(j==18)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Sports")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=19)
+                            if(j==19)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Travel")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=20)
+                            if(j==20)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Utilities")){
                             for(int j=0; j<23;j++)
                         {
-                            if(j=21)
+                            if(j==21)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
                     }else if(data[i].compare("Weather")){
                         for(int j=0; j<23;j++)
                         {
-                            if(j=22)
+                            if(j==22)
                                 comparables.push_back(1);
                             comparables.push_back(0);
                         }  
@@ -479,22 +500,22 @@ void leerData(string archivo, kd_node* root)
                 } 
                 
             }
-        }
-        
-        cout << comparables[1] << endl;
-        
+        }        
         root = insert(root, comparables, data);
+        check1.clear();
         comparables.clear();
         data.clear();
+        s.clear();
     }   
     f.close();
 }
 
 kd_node encontrarDatoID(kd_node* root, string filtro){
     stack<kd_node> S;
+    kd_node var = *root;
     kd_node actual;
     kd_node data;
-    S.push(*root);
+    S.push(var);
     while(S.size() > 0){
         actual = S.top();
         S.pop();
@@ -526,7 +547,6 @@ vector<kd_node> encontrarNCercanas(int N, kd_node* root, string filtro){
         S.pop();
         unsigned dim = node.getDepth() % k;
         
-        //tratar de insertar node.p en N
         if(datas.empty()){
             datas.push_back(node);
         }
@@ -564,17 +584,14 @@ vector<kd_node> encontrarNCercanas(int N, kd_node* root, string filtro){
 // Driver program to test above functions
 int main()
 {
-    kd_node root;
+    kd_node* root = NULL;
     //KDTree tree(*root);
 
-    vector<string> datas2[] = {{"281656475","PAC-MAN Premium","100788224","USD","3.99","21292","26","4","4.5","6.3.5","4+","Games","38","5","10","1"}, {"283619399","Shanghai Mahjong","10485713","USD","0.99","8253","5516","4","4","1.8","4+","Games","47","5","1","1"}}; 
-    vector<double> points2[] = {{100788224,3.99,21292,26,4,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,38,5,10,1}, {10485713,0.99,8253,5516,4,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,47,5,1,1}};  
-
-    leerData("Desafio3.csv", &root);
+    leerData("Minidesafio3.csv", root);
     
     //leerData("Desafio3.csv");
-    printData(encontrarDatoID(&root, "283619399"));
-    printData(encontrarDatoID(&root, "281656475"));
+    printData(encontrarDatoID(root, "283619399"));
+    printData(encontrarDatoID(root, "281656475"));
 
     return 0;
 }
