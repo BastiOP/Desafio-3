@@ -1,4 +1,4 @@
-# README Desafio 2
+# README Desafio 3
 ~~~
 CAMILO ACEVEDO ÁLVAREZ
 RODRIGO MORALES PEÑA
@@ -17,62 +17,17 @@ Link al video:
 
 ## Explicación del problema.
 
-El problema del Sudoku consiste en un Estado Inicial con una matriz T de 9x9, divididas en 9 submatrices U de 3x3 denominadas regiones, en las cuales hay que rellenar con cifras del 1 al 9. En un inicio, existen números que son agregados de forma predeterminada dentro de algunas casillas, los cuales se denominan pistas. Estas pistas están posicionadas estratégicamente para que el jugador pueda rellenar las casillas en blanco cumpliendo las restricciones. La restricción por ley del sudoku se basa en no repetir las cifras del 1 al 9 tanto en columnas, filas y regiones.  
-Cada una de las filas de la matriz T está compuesta por 9 celdas, en las cuales se deben de rellenar con las cifras del 1 al 9 en el orden que el jugador le parezca prudente, es decir, al posicionar un número en una casilla vacía hay que tener en cuenta que el número no se repita. A su vez, las columnas de las matriz T poseen una estructura idéntica que las filas, sólo que en este caso en forma vertical, también se poseen las mismas condiciones anteriormente mencionadas. Además, se deben rellenar las regiones de las submatrices U con la serie completa del 1 al 9 sin que estos se repitan.  
-Al intentar resolver un sudoku nos encontramos que pueden existir diferentes niveles de dificultad. Esta dificultad dependerá netamente de la relevancia y posición que se encuentren los números dados, no de la cantidad de número de pistas iniciales como se puede llegar a creer. La dificultad reside en los métodos que ocupa el jugador para rellenar la matriz.  
-Para poder llegar a un Estado Final de la matriz T no se deben de poder agregar más cifras, ya sea porque no existen más casillas en blanco dentro de la matriz o porque al intentar agregar una cifra ésta ya se encuentra digitada y además no existe otra casilla en blanco para rellenar con otra cifra. Si se encuentra dentro de este último estado, se deberá comenzar de nuevo con el problema, en cambio si se encuentra en el primer Estado Final mencionado; ¡Felicidades!, ha logrado completar el Sudoku.
+El problema a desarrollar consiste en la solicitud de Manuel, para la creación de un programa, el cual a partir de datos recopilados de las aplicaciones más descargadas de una tienda en específico se obtenga información sobre aplicaciones similares a las que se encuentra desarrollando Manuel. Para esto, toda la información recopilada  de la tienda se encuentra guardada dentro de un dataset en formato csv donde cada aplicación posee un id para identificarlo, un nombre, su tamaño, su precio junto con el tipo de moneda del precio, la cantidad total de calificaciones del juego, la calificación de la versión en que se encuentra, un promedio de puntaje de las reseñas, un promedio de puntaje de las reseñas para la versión actual, la última versión en que se encuentra el juego,  la clasificación de edad para el contenido de este, el género principal, la cantidad de dispositivos que soporta, la cantidad de capturas de pantalla por dispositivo, la cantidad de lenguajes que soporta y la licencia Vpp.
+
+Para poder realizar este programa se deberá escoger una estructura espacial que sea adecuada y que sea conocida por nosotros, ya que se deberá almacenar la información en esta estructura y al escoger una estructura espacial conocida se nos hará más sencillo el manejo de los datos y la creación de las funcionalidades. Además el programa deberá contener al menos tres funcionalidades que son necesarias para encontrar información de las aplicaciones similares. La primera funcionalidad que se debe de implementar es que se debe mostrar toda la información de una aplicación específica al ingresar el id o nombre de esta. En segundo lugar, la funcionalidad que se debe de implementar es que se debe de mostrar la información de las 10 aplicaciones más parecidas a una aplicación que fue entregada por id. Por último, se debe de mostrar las 10 aplicaciones más parecidas a un vector de atributos, entregado su precio, tamaño, etc.
+
+Además de esas funcionalidades, se deben identificar los atributos de cada aplicación que se podrán comparar entre sí, y se deberá definir una funcionalidad la cual calcule la distancia entre los datos que se estén comparando. Todo esto se verá a más detalle a continuación, donde se explicará la solución propuesta a este problema.
 
 ## Solución propuesta
-El algoritmo que nosotros propusimos para resolver el problema fue la Búsqueda en Profundidad, opción que mostró mejores resultados en comparación con el algoritmo Búsqueda en Anchura, según nuestro análisis de los resultados.  
-El algoritmo de búsqueda requiere de nodos, estados, una pila y un grafo. Comienza el recorrido en el nodo inicial, que equivale al estado inicial del algoritmo, luego se avanza hacia la profundidad del grafo, de nodo en nodo, hasta que se llega al final, si en este punto el estado no fuera un estado final (solución del problema), se devuelve en el camino hasta encontrar otro y seguir así iteradamente. Cada vez que cambie de estado, este nodo es ingresado en la pila, la cual permite extraer los últimos ingresados, por eso mismo la estructura es ideal para el algoritmo, ya que cada vez que sea necesario devolverse en el camino del grafo, se extraerán los nodos desde el último visitado, hasta encontrar otra opción.  
-Una explicación en pseudocódigo del algoritmo empleado, se itera mientras la pila no esté vacía, luego se extrae el primer valor de esta y es asignado al estado, se consulta si este es un estado final (si cumple con la condiciones); si lo es, se imprime el estado final, junto al número de pasos ejecutados y el tamaño de la pila; si no es así, se obtiene la lista de acciones correspondientes al estado, dentro de este proceso se aplica un filtrado de estos. El resultado de lo anterior, es ingresado a la pila.
-
-~~~
-DFS()
-|   while(criterio de término: pila esté vacía)
-|	|   Se extrae primer valor de la pila y se asigna al estado
-|	|   if(esEstadoFinal)
-|	|	|    imprimeEstadoFinal
-|	|	|    retorna numeroIteraciones
-|	|   endif
-|	|    obtener_acciones(estados)
-|    endWhile	
-retorna numeroIteraciones
-~~~
-
-Como se mencionó anteriormente, al momento de generar los nodos del estado en la parte superior de la pila, se aplica un filtro a la búsqueda, de manera que no aparezcan la cantidad exorbitante de nodos que normalmente se tendria al tener como estado el colocar un valor entero del 1 al 9 en cualquiera de los espacios vacíos. 
-~~~
-obtener_acciones()
-|	lista_acciones
-|	posicion_vacia
-|	maximo <- 9
-|	for(casillas)
-|	|	if(casilla_vacia)
-|	|	|	filtro_busqueda()
-|	|	endif
-|	endfor
-|	for(numeros_posibles)
-|	|	lista_acciones <- agrego_accion()
-|	endfor
-retorna acciones
-~~~
-
-El filtrado se realiza dentro del método que obtiene los siguientes nodos al nodo actual, el filtro inicial radica en tomar exclusivamente valores que respeten las restricciones del problema, lo cual limita a tomar ciertos números enteros del 1 al 9, pero no bastaría solo con esto ya que aún quedan muchos espacios vacíos donde colocar un valor, para esta parte se decide encontrar la casilla que tenga la menor cantidad de números posibles que respeten las restricciones, siendo 1 el valor mínimo, para ello requiere de almacenar la posición en donde lo encuentra dentro de la matriz, para posteriormente solo obtener los nodos con números en solo esa posición y que no causen restricciones.
-
-~~~
-filtro_busqueda:
-                for(numeros_posibles)
-                |	if(es_valido)
-                |	|	cantidad_numeros_posibles++
-                |	endif
-                endfor
-                if(cantidad_numeros_posibles menor a maximo)
-                |	maximo <- cantidad_numeros_posibles
-                |	posicion_vacia <- ubicacion en el sudoku
-                endif
+Para resolver el problema, se usó el algoritmo  KNN aplicado en un K-D Tree. El K-D Tree es una estructura de datos similar al árbol de búsqueda binario, con la diferencia de que cada nodo tiene K dimensiones y ordenados por estas.	
+Cada nivel del K-D Tree corresponde a una dimensión de los puntos y en el plano cartesiano (si corresponde a 2 dimensiones) se puede representar como la división de este según la dimensión en que se compara. El K-D Tree se compone de un conjunto de nodos, los cuales tienen asociado punteros hacia sus hijos (lado derecho e izquierdo). El algoritmo comienza con un nodo raíz (root), el cual da comienzo al árbol y lo “divide” en dos partes, luego los puntos se van ordenando según las dimensiones que tengan, midiendo la distancia con la función implementada. Con la misma función comentada anteriormente, se pueden descartar nodos, es decir, con la distancia calculada entre el punto de referencia y el centro del árbol, se puede escoger solo un lado y descartar totalmente el otro.
 
 
-~~~
 ## Coevaluación
 
 ### **Autor: Camilo Acevedo Álvarez**
@@ -81,12 +36,11 @@ filtro_busqueda:
 
 Criterio | Evaluación
 -- | --
-Asistencia y puntualidad | 1
-Integración | 1
-Responsabilidad | 1
-Contribución | 1
-Resolución de conflictos | 1  
-TOTAL: +5
+Asistencia y puntualidad | 0
+Integración | 0
+Responsabilidad | 0
+Contribución | 0
+Resolución de conflictos | 0  
 * Aspecto positivo:  Disposición a trabajar en los momentos necesarios.
 * Aspecto negativo:  Falta de comunicación.
 \
@@ -94,12 +48,11 @@ TOTAL: +5
 
 Criterio | Evaluación
 -- | --
-Asistencia y puntualidad | 1
-Integración | 1
-Responsabilidad | 1
-Contribución | 1
-Resolución de conflictos | 1
-TOTAL: +5
+Asistencia y puntualidad | 0
+Integración | 0
+Responsabilidad | 0
+Contribución | 0
+Resolución de conflictos | 0
 * Aspecto positivo:  Motivación por el trabajo.
 * Aspecto negativo:  Poco control de la motivación.
 
@@ -110,12 +63,11 @@ TOTAL: +5
 
 Criterio | Evaluación
 -- | --
-Asistencia y puntualidad | 1
-Integración | 1
-Responsabilidad | 1
-Contribución | 1
-Resolución de conflictos | 1
-TOTAL: +5
+Asistencia y puntualidad | 0
+Integración | 0
+Responsabilidad | 0
+Contribución | 0
+Resolución de conflictos | 0
 
 * Aspecto positivo: Tiene buena disposición en ayudar a sus compañeros, tiene paciencia
 * Aspecto negativo: Es muy disperso.
@@ -124,12 +76,11 @@ TOTAL: +5
 
 Criterio | Evaluación
 -- | --
-Asistencia y puntualidad | 1
-Integración | 1
-Responsabilidad | 1
-Contribución | 1
-Resolución de conflictos | 1
-TOTAL: +5
+Asistencia y puntualidad | 0
+Integración | 0
+Responsabilidad | 0
+Contribución | 0
+Resolución de conflictos | 0
 * Aspecto positivo: Tiene buena disposición, es centrado.
 * Aspecto negativo: Tiene poca paciencia.
 
@@ -140,12 +91,11 @@ TOTAL: +5
 
 Criterio | Evaluación
 -- | --
-Asistencia y puntualidad | 1
-Integración | 1
-Responsabilidad | 1
-Contribución | 1
-Resolución de conflictos | 1
-TOTAL: +5
+Asistencia y puntualidad | 0
+Integración | 0
+Responsabilidad | 0
+Contribución | 0
+Resolución de conflictos | 0
 * Aspecto positivo: Veloz aprendizaje.
 * Aspecto negativo: Es desordenado.
 \
@@ -153,11 +103,10 @@ TOTAL: +5
 
 Criterio | Evaluación
 -- | --
-Asistencia y puntualidad | 1
-Integración | 1
-Responsabilidad | 1
-Contribución | 1
-Resolución de conflictos | 1
-TOTAL: +5
+Asistencia y puntualidad | 0
+Integración | 0
+Responsabilidad | 0
+Contribución | 0
+Resolución de conflictos | 0
 * Aspecto positivo:  Se esfuerza para obtener buenos resultados.
 * Aspecto negativo:  Dificultad en organizar el tiempo.
