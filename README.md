@@ -15,6 +15,9 @@ Link al video:
 4. Abrir Terminal, ir a ubicación donde se encuentra el archivo "main.exe" (misma ubicación donde se encuentra main.cpp).
 5. Ejecutar esta linea de codigo, ".\main"
 
+##Explicación
+Profesor y ayudantes, pedimos disculpa por la entrega del trabajo no completo, ya que no le dedicamos el tiempo adecuado e incluyendo la carga academica en estos momentos del semestre. Esperamos entregar un trabajo de mejor calidad para el próximo desafío, espero comprendan, gracias.
+
 ## Explicación del problema.
 
 El problema a desarrollar consiste en la solicitud de Manuel, para la creación de un programa, el cual a partir de datos recopilados de las aplicaciones más descargadas de una tienda en específico se obtenga información sobre aplicaciones similares a las que se encuentra desarrollando Manuel. Para esto, toda la información recopilada  de la tienda se encuentra guardada dentro de un dataset en formato csv donde cada aplicación posee un id para identificarlo, un nombre, su tamaño, su precio junto con el tipo de moneda del precio, la cantidad total de calificaciones del juego, la calificación de la versión en que se encuentra, un promedio de puntaje de las reseñas, un promedio de puntaje de las reseñas para la versión actual, la última versión en que se encuentra el juego,  la clasificación de edad para el contenido de este, el género principal, la cantidad de dispositivos que soporta, la cantidad de capturas de pantalla por dispositivo, la cantidad de lenguajes que soporta y la licencia Vpp.
