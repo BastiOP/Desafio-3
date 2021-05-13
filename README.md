@@ -32,6 +32,9 @@ Cada nivel del K-D Tree corresponde a una dimensión de los puntos y en el plano
 
 Para calcular la distancia entre puntos, se implementó una función en donde los datos pertenecientes a las dimensiones que fueran númericos (bytes, precio, etc), se obtuviera la diferencia de estos, entre dos puntos, lo que sumaría distancia si no fueran iguales en esa dimensión. En cambio, los datos que se pueden definir como una representación vectorial(one hot encoding), se les asignó un "peso" o valor a esa distancia si fueran distintos. Al final, esta distancia calculada en cada dimensión, es sumada y da como resultado la distancia total entre dos puntos.
 
+Se decidió elegir la ID para la búsqueda de un dato dentro del árbol, haciendo uso de una búsqueda en profundidad para encontrar el nodo en el cual se encontraba esa ID, por lo que dedujimos que podría tardar en ciertos casos, dependiendo de como se forme el árbol. En el caso de la función para los 10 o N vecinos mas cercanos, se determino que se debiera usar una pila para ir avanzando en el árbol, teniendo en cuenta la forma de descarte de áreas en donde seria imposible encontrar vecinos mas cercanos, así como también un vector donde se almacenaron hasta N nodos mas cercanos, los cuales se fueron actualizando hasta terminar de recorrer el árbol.
+
+Si bien, como se menciono anteriormente, no se termino el trabajo por completo, podemos intuir que al menos en las dos ultimas funciones que se debían implementar, el árbol  KDTree se desempeñaría mejor ya que esta hecho para la búsqueda de similitudes y no tan solo almacenar datos como ocurre con las listas o arreglos.
 
 ## Coevaluación
 
