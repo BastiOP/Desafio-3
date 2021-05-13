@@ -27,6 +27,8 @@ Además de esas funcionalidades, se deben identificar los atributos de cada apli
 Para resolver el problema, se usó el algoritmo  KNN aplicado en un K-D Tree. El K-D Tree es una estructura de datos similar al árbol de búsqueda binario, con la diferencia de que cada nodo tiene K dimensiones y ordenados por estas.	
 Cada nivel del K-D Tree corresponde a una dimensión de los puntos y en el plano cartesiano (si corresponde a 2 dimensiones) se puede representar como la división de este según la dimensión en que se compara. El K-D Tree se compone de un conjunto de nodos, los cuales tienen asociado punteros hacia sus hijos (lado derecho e izquierdo). El algoritmo comienza con un nodo raíz (root), el cual da comienzo al árbol y lo “divide” en dos partes, luego los puntos se van ordenando según las dimensiones que tengan, midiendo la distancia con la función implementada. Con la misma función comentada anteriormente, se pueden descartar nodos, es decir, con la distancia calculada entre el punto de referencia y el centro del árbol, se puede escoger solo un lado y descartar totalmente el otro.
 
+Para calcular la distancia entre puntos, se implementó una función en donde los datos pertenecientes a las dimensiones que fueran númericos (bytes, precio, etc), se obtuviera la diferencia de estos, entre dos puntos, lo que sumaría distancia si no fueran iguales en esa dimensión. En cambio, los datos que se pueden definir como una representación vectorial(one hot encoding), se les asignó un "peso" o valor a esa distancia si fueran distintos. Al final, esta distancia calculada en cada dimensión, es sumada y da como resultado la distancia total entre dos puntos.
+
 
 ## Coevaluación
 
