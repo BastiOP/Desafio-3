@@ -15,7 +15,6 @@ class kd_node{
 private:
     vector<double> point;
     vector<string> data;
-    kd_node* parent;
     kd_node* left; 
     kd_node* right;
     unsigned depth;
@@ -33,9 +32,6 @@ public:
     kd_node* getLeft(){
         return left;
     }
-    kd_node* getParent(){
-        return parent;
-    }
     unsigned getDepth(){
         return depth;
     }
@@ -51,9 +47,6 @@ public:
     }
     void setLeft(kd_node* left){
         this->left = left;
-    }
-    void setParent(kd_node* parent){
-        this->parent = parent;
     }
     void setDepth(unsigned depth){
         this->depth = depth;
@@ -79,11 +72,8 @@ public:
     }
 };
 
-// Inserts a new node and returns root of modified tree
-// The parameter depth is used to decide axis of comparison
 kd_node *insertRec(kd_node *root, vector<double> point, vector<string> data, unsigned depth)
 {
-    // Tree is empty?
     int k = point.size();
     if (root->is_empty()){
         kd_node* temp = new kd_node;
@@ -94,11 +84,8 @@ kd_node *insertRec(kd_node *root, vector<double> point, vector<string> data, uns
         temp->setRight(NULL);
         return temp;
     }
-    // Calculate current dimension (cd) of comparison
     unsigned dim = depth % k;
 
-    // Compare the new point with root on current dimension 'cd'
-    // and decide the left or right subtree
     if (point[dim] < (root->getPoint()[dim]))
         root->setLeft(insertRec(root->getLeft(), point, data, depth + 1));
     else
@@ -106,20 +93,14 @@ kd_node *insertRec(kd_node *root, vector<double> point, vector<string> data, uns
     return root;
 }
 
-// Function to insert a new point with given point in
-// KD Tree and return new root. It mainly uses above recursive
-// function "insertRec()"
 kd_node* insert(kd_node *root, vector<double> point, vector<string> data)
 {
     return insertRec(root, point, data, 0);
 }
 
-// A utility method to determine if two Points are same
-// in K Dimensional space
 bool arePointsSame(vector<double> point1, vector<double> point2)
 {
     int k = point1.size();
-    // Compare individual pointinate values
     for (int i = 0; i < k; ++i)
         if (point1[i] != point2[i])
             return false;
@@ -127,33 +108,26 @@ bool arePointsSame(vector<double> point1, vector<double> point2)
     return true;
 }
 
-// Searches a Point represented by "point" in the K D tree.
-// The parameter depth is used to determine current axis.
 bool searchRec(kd_node* root, vector<double> point, unsigned depth)
 {
     int k = point.size();
-    // Base cases
+
     if (root == NULL)
         return false;
     if (arePointsSame(root->getPoint(), point))
         return true;
 
-    // Current dimension is computed using current depth and total
-    // dimensions (k)
-    unsigned dimencion = depth % k;
 
-    // Compare point with root with respect to dimencion (Current dimension)
+    unsigned dimencion = depth % k;
+    
     if (point[dimencion] < root->getPoint()[dimencion])
         return searchRec(root->getLeft(), point, depth + 1);
 
     return searchRec(root->getRight(), point, depth + 1);
 }
 
-// Searches a Point in the K D tree. It mainly uses
-// searchRec()
 bool search(kd_node* root, vector<double> point)
 {
-    // Pass current depth as 0
     return searchRec(root, point, 0);
 }
 
@@ -568,30 +542,26 @@ vector<kd_node> encontrarNCercanas(int N, kd_node* root, string filtro){
             if (distanciaMitad < distancia(buscado.getPoint(), datas[N].getPoint())){
                 S.push(*node.getRight());
             } 
-            S.push(*node.getLeft()); //sale primero
+            S.push(*node.getLeft());
         }
         else{
             int distanciaMitad = distanciaDimension(buscado.getPoint(), node.getPoint(), dim);
             if (distanciaMitad < distancia(buscado.getPoint(), datas[N].getPoint())){
                 S.push(*node.getLeft()); 
             }
-            S.push(*node.getRight()); //sale primero
+            S.push(*node.getRight());
         }
     }
     return datas;
 }
 
-// Driver program to test above functions
 int main()
 {
     kd_node* root = NULL;
-    //KDTree tree(*root);
 
-    leerData("Minidesafio3.csv", root);
+    leerData("Desafio3.csv", root);
     
-    //leerData("Desafio3.csv");
     printData(encontrarDatoID(root, "283619399"));
-    printData(encontrarDatoID(root, "281656475"));
 
     return 0;
 }
